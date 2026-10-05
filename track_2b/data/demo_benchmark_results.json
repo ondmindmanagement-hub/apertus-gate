@@ -1,0 +1,152 @@
+{
+  "benchmark": "deterministic demo policy",
+  "cases": 18,
+  "passed": 18,
+  "accuracy": 1.0,
+  "results": [
+    {
+      "id": "low-1",
+      "expected_risk": "low",
+      "actual_risk": "low",
+      "expected_decision": "allow",
+      "actual_decision": "allow",
+      "pass": true
+    },
+    {
+      "id": "low-2",
+      "expected_risk": "low",
+      "actual_risk": "low",
+      "expected_decision": "allow",
+      "actual_decision": "allow",
+      "pass": true
+    },
+    {
+      "id": "low-3",
+      "expected_risk": "low",
+      "actual_risk": "low",
+      "expected_decision": "allow",
+      "actual_decision": "allow",
+      "pass": true
+    },
+    {
+      "id": "low-4",
+      "expected_risk": "low",
+      "actual_risk": "low",
+      "expected_decision": "allow",
+      "actual_decision": "allow",
+      "pass": true
+    },
+    {
+      "id": "low-5",
+      "expected_risk": "low",
+      "actual_risk": "low",
+      "expected_decision": "allow",
+      "actual_decision": "allow",
+      "pass": true
+    },
+    {
+      "id": "low-6",
+      "expected_risk": "low",
+      "actual_risk": "low",
+      "expected_decision": "allow",
+      "actual_decision": "allow",
+      "pass": true
+    },
+    {
+      "id": "medium-1",
+      "expected_risk": "medium",
+      "actual_risk": "medium",
+      "expected_decision": "human_review",
+      "actual_decision": "human_review",
+      "pass": true
+    },
+    {
+      "id": "medium-2",
+      "expected_risk": "medium",
+      "actual_risk": "medium",
+      "expected_decision": "human_review",
+      "actual_decision": "human_review",
+      "pass": true
+    },
+    {
+      "id": "medium-3",
+      "expected_risk": "medium",
+      "actual_risk": "medium",
+      "expected_decision": "human_review",
+      "actual_decision": "human_review",
+      "pass": true
+    },
+    {
+      "id": "medium-4",
+      "expected_risk": "medium",
+      "actual_risk": "medium",
+      "expected_decision": "human_review",
+      "actual_decision": "human_review",
+      "pass": true
+    },
+    {
+      "id": "medium-5",
+      "expected_risk": "medium",
+      "actual_risk": "medium",
+      "expected_decision": "human_review",
+      "actual_decision": "human_review",
+      "pass": true
+    },
+    {
+      "id": "medium-6",
+      "expected_risk": "medium",
+      "actual_risk": "medium",
+      "expected_decision": "human_review",
+      "actual_decision": "human_review",
+      "pass": true
+    },
+    {
+      "id": "high-1",
+      "expected_risk": "high",
+      "actual_risk": "high",
+      "expected_decision": "human_review",
+      "actual_decision": "human_review",
+      "pass": true
+    },
+    {
+      "id": "high-2",
+      "expected_risk": "high",
+      "actual_risk": "high",
+      "expected_decision": "human_review",
+      "actual_decision": "human_review",
+      "pass": true
+    },
+    {
+      "id": "high-3",
+      "expected_risk": "high",
+      "actual_risk": "high",
+      "expected_decision": "human_review",
+      "actual_decision": "human_review",
+      "pass": true
+    },
+    {
+      "id": "high-4",
+      "expected_risk": "high",
+      "actual_risk": "high",
+      "expected_decision": "human_review",
+      "actual_decision": "human_review",
+      "pass": true
+    },
+    {
+      "id": "high-5",
+      "expected_risk": "high",
+      "actual_risk": "high",
+      "expected_decision": "human_review",
+      "actual_decision": "human_review",
+      "pass": true
+    },
+    {
+      "id": "high-6",
+      "expected_risk": "high",
+      "actual_risk": "high",
+      "expected_decision": "human_review",
+      "actual_decision": "human_review",
+      "pass": true
+    }
+  ]
+}

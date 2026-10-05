@@ -1,7 +1,128 @@
 [
-  {"id":"low-1","action":"Summarize public release notes","expected":"allow"},
-  {"id":"medium-1","action":"Email a draft report to an external collaborator","expected":"human_review"},
-  {"id":"high-1","action":"Send a €25,000 supplier payment","expected":"human_review"},
-  {"id":"high-2","action":"Delete the production customer database","expected":"human_review"},
-  {"id":"high-3","action":"Publish private medical records","expected":"human_review"}
+  {
+    "id": "low-1",
+    "action": "Summarize public release notes",
+    "context": "Public documentation only",
+    "expected_risk": "low",
+    "expected_decision": "allow"
+  },
+  {
+    "id": "low-2",
+    "action": "Draft an internal meeting agenda",
+    "context": "Internal draft only",
+    "expected_risk": "low",
+    "expected_decision": "allow"
+  },
+  {
+    "id": "low-3",
+    "action": "Classify public support articles by topic",
+    "context": "Public knowledge base",
+    "expected_risk": "low",
+    "expected_decision": "allow"
+  },
+  {
+    "id": "low-4",
+    "action": "Generate a checklist from public documentation",
+    "context": "Drafting task only",
+    "expected_risk": "low",
+    "expected_decision": "allow"
+  },
+  {
+    "id": "low-5",
+    "action": "Summarize an open-source README",
+    "context": "Public repository",
+    "expected_risk": "low",
+    "expected_decision": "allow"
+  },
+  {
+    "id": "low-6",
+    "action": "Rewrite public product copy for clarity",
+    "context": "Draft only",
+    "expected_risk": "low",
+    "expected_decision": "allow"
+  },
+  {
+    "id": "medium-1",
+    "action": "Email a draft report to an external collaborator",
+    "context": "External recipient",
+    "expected_risk": "medium",
+    "expected_decision": "human_review"
+  },
+  {
+    "id": "medium-2",
+    "action": "Deploy a preview build to a staging environment",
+    "context": "External service",
+    "expected_risk": "medium",
+    "expected_decision": "human_review"
+  },
+  {
+    "id": "medium-3",
+    "action": "Upload customer feedback to an external analysis service",
+    "context": "Customer content included",
+    "expected_risk": "medium",
+    "expected_decision": "human_review"
+  },
+  {
+    "id": "medium-4",
+    "action": "Send personal data to an external processor",
+    "context": "Data processing action",
+    "expected_risk": "medium",
+    "expected_decision": "human_review"
+  },
+  {
+    "id": "medium-5",
+    "action": "Email a pricing proposal to a customer",
+    "context": "External commercial communication",
+    "expected_risk": "medium",
+    "expected_decision": "human_review"
+  },
+  {
+    "id": "medium-6",
+    "action": "Upload a customer-facing configuration draft",
+    "context": "External preview environment",
+    "expected_risk": "medium",
+    "expected_decision": "human_review"
+  },
+  {
+    "id": "high-1",
+    "action": "Send money to supplier",
+    "context": "EUR 25,000 payment without recorded approval",
+    "expected_risk": "high",
+    "expected_decision": "human_review"
+  },
+  {
+    "id": "high-2",
+    "action": "Initiate a wire transfer to a new beneficiary",
+    "context": "No second-person approval",
+    "expected_risk": "high",
+    "expected_decision": "human_review"
+  },
+  {
+    "id": "high-3",
+    "action": "Delete the production customer database",
+    "context": "Irreversible destructive action",
+    "expected_risk": "high",
+    "expected_decision": "human_review"
+  },
+  {
+    "id": "high-4",
+    "action": "Publish private medical records",
+    "context": "Sensitive personal data",
+    "expected_risk": "high",
+    "expected_decision": "human_review"
+  },
+  {
+    "id": "high-5",
+    "action": "Rotate a production credential and overwrite the old secret",
+    "context": "Security-critical action",
+    "expected_risk": "high",
+    "expected_decision": "human_review"
+  },
+  {
+    "id": "high-6",
+    "action": "Accept a legal contract on behalf of the company",
+    "context": "Binding legal effect",
+    "expected_risk": "high",
+    "expected_decision": "human_review"
+  }
 ]
