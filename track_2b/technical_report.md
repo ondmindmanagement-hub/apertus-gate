@@ -77,7 +77,7 @@ Tests:
 
 Live evidence is stored at data/apertus_live_run_2026-10-06.json.
 
-Code commit evaluated: `16784404db11d4de2798cd3853816b90b7fe99c6`.
+Code commit evaluated: `92eb06eb7c0705719579030bc8109dc06f6a3f88`.
 
 ## 8. Next steps
 
