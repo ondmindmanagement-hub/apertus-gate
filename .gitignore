@@ -2,3 +2,6 @@
 .DS_Store
 __pycache__/
 *.pyc
+
+APERTUS_GATE_SUBMISSION.zip
+demo_narration.aiff

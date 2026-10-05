@@ -129,4 +129,5 @@ if __name__ == "__main__":
     port = int(os.getenv("PORT","8787"))
     print(f"Apertus Gate on http://127.0.0.1:{port}")
     print("Mode:", "Apertus API" if API_KEY else "demo-policy (set APERTUS_API_KEY for real inference)")
-    ThreadingHTTPServer(("127.0.0.1", port), Handler).serve_forever()
+    host = os.getenv("HOST","0.0.0.0")
+    ThreadingHTTPServer((host, port), Handler).serve_forever()
