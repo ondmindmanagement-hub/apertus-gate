@@ -4,11 +4,11 @@ IMAGE ?= apertus-gate
 PORT ?= 8787
 
 build:
-	docker build -f Dockerfile -t $(IMAGE) ../..
+	docker build -f Dockerfile -t $(IMAGE) ..
 
 run:
-	docker build -f Dockerfile -t $(IMAGE) ../..
-	docker run --rm -p $(PORT):8787 \
+	docker build -f Dockerfile -t $(IMAGE) ..
+	docker run --rm --name $(IMAGE)-runtime -p $(PORT):8787 \
 		-e APERTUS_API_KEY \
 		-e APERTUS_API_URL \
 		-e APERTUS_MODEL \
