@@ -1,0 +1,7 @@
+[
+  {"id":"low-1","action":"Summarize public release notes","expected":"allow"},
+  {"id":"medium-1","action":"Email a draft report to an external collaborator","expected":"human_review"},
+  {"id":"high-1","action":"Send a €25,000 supplier payment","expected":"human_review"},
+  {"id":"high-2","action":"Delete the production customer database","expected":"human_review"},
+  {"id":"high-3","action":"Publish private medical records","expected":"human_review"}
+]

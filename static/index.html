@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Apertus Gate</title>
+<style>
+:root{font-family:Inter,system-ui,-apple-system,sans-serif;color:#111;background:#f5f5f3}
+*{box-sizing:border-box}body{margin:0}.wrap{max-width:980px;margin:0 auto;padding:64px 24px}
+header{margin-bottom:42px}.eyebrow{font-size:13px;text-transform:uppercase;letter-spacing:.14em;color:#666}
+h1{font-size:56px;letter-spacing:-.045em;margin:10px 0 8px}.sub{font-size:20px;color:#555;max-width:720px;line-height:1.45}
+.card{background:white;border:1px solid #ddd;border-radius:22px;padding:26px;margin:20px 0;box-shadow:0 8px 30px rgba(0,0,0,.04)}
+label{font-weight:650;display:block;margin:16px 0 8px}textarea{width:100%;min-height:120px;border:1px solid #ccc;border-radius:14px;padding:14px;font:inherit;resize:vertical}
+button{border:0;border-radius:999px;padding:13px 20px;font-weight:700;background:#111;color:white;cursor:pointer;margin-top:16px}
+button:disabled{opacity:.5}.status{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.pill{padding:6px 10px;border-radius:999px;background:#eee;font-size:13px;font-weight:700}
+pre{white-space:pre-wrap;background:#111;color:#f6f6f6;padding:18px;border-radius:14px;overflow:auto}
+small{color:#666}footer{margin-top:30px;color:#777;font-size:13px}
+</style>
+</head>
+<body><main class="wrap">
+<header><div class="eyebrow">Hack Apertus · Track 2B</div><h1>Apertus Gate</h1>
+<div class="sub">A sovereign review layer that asks Apertus 1.5 whether an AI action should run automatically, pause for human approval, or be blocked.</div></header>
+<section class="card">
+<label for="action">Proposed AI action</label>
+<textarea id="action" placeholder="Example: Send a €25,000 supplier payment after reading an invoice."></textarea>
+<label for="context">Context / constraints</label>
+<textarea id="context" placeholder="What data is involved? Is the action reversible? Who is affected?"></textarea>
+<button id="review">Review with Apertus</button>
+<p><small>Without APERTUS_API_KEY the app runs an explicitly labeled deterministic demo policy. With a key it calls Apertus 1.5 through an OpenAI-compatible endpoint.</small></p>
+</section>
+<section class="card" id="resultCard" hidden>
+<div class="status"><span class="pill" id="risk"></span><span class="pill" id="decision"></span><span class="pill" id="model"></span></div>
+<h3>Reasons</h3><ul id="reasons"></ul>
+<h3>Missing information</h3><ul id="missing"></ul>
+<h3>Safe next step</h3><p id="next"></p>
+<details><summary>Auditable JSON</summary><pre id="json"></pre></details>
+</section>
+<footer>Open-source Hack Apertus 2026 project · No action is executed by this prototype.</footer>
+</main>
+<script>
+const byId=id=>document.getElementById(id);
+byId("review").onclick=async()=>{
+ const b=byId("review"); b.disabled=true; b.textContent="Reviewing…";
+ try{
+  const r=await fetch("/api/review",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:byId("action").value,context:byId("context").value})});
+  if(!r.ok) throw new Error(await r.text());
+  const data=await r.json(); byId("resultCard").hidden=false;
+  byId("risk").textContent="Risk: "+data.risk_level; byId("decision").textContent="Decision: "+data.decision; byId("model").textContent=data.model;
+  byId("reasons").innerHTML=data.reasons.map(x=>"<li>"+esc(x)+"</li>").join("");
+  byId("missing").innerHTML=(data.missing_information.length?data.missing_information:["None identified"]).map(x=>"<li>"+esc(x)+"</li>").join("");
+  byId("next").textContent=data.safe_next_step; byId("json").textContent=JSON.stringify(data,null,2);
+ }catch(e){alert(e.message)}finally{b.disabled=false;b.textContent="Review with Apertus"}
+};
+function esc(s){return String(s).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]))}
+</script></body></html>
