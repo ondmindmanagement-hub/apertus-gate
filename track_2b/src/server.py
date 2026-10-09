@@ -105,13 +105,25 @@ class Handler(SimpleHTTPRequestHandler):
         if self.path != "/api/review":
             self.send_error(404); return
         try:
-            n = int(self.headers.get("Content-Length","0"))
-            req = json.loads(self.rfile.read(n) or b"{}")
-            action = str(req.get("action","")).strip()
-            context = str(req.get("context","")).strip()
-            if not action:
-                raise ValueError("Action is required")
-            result = call_apertus(action[:4000], context[:6000])
+            # Reject oversized/unknown request bodies before reading any bytes.
+            # This demo must not accept arbitrarily large requests on a local port.
+            raw_length = self.headers.get("Content-Length")
+            if raw_length is None:
+                self.send_error(411, "Content-Length required"); return
+            try:
+                n = int(raw_length)
+            except ValueError:
+                self.send_error(400, "Invalid Content-Length"); return
+            if n < 1 or n > 12_288:
+                self.send_error(413, "Request must be 1-12288 bytes"); return
+            req = json.loads(self.rfile.read(n))
+            if not isinstance(req, dict) or not isinstance(req.get("action"), str) or not isinstance(req.get("context", ""), str):
+                raise ValueError("Expected an object with a string action and context")
+            action = req["action"].strip()
+            context = req.get("context", "").strip()
+            if not action or len(action) > 4000 or len(context) > 6000:
+                raise ValueError("Action/context length invalid")
+            result = call_apertus(action, context)
             out = json.dumps(result).encode()
             self.send_response(200)
             self.send_header("Content-Type","application/json")
@@ -119,15 +131,18 @@ class Handler(SimpleHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(out)
         except urllib.error.HTTPError as e:
-            msg = e.read().decode("utf-8","ignore")[:1500]
-            self.send_error(502, f"Inference provider error: {e.code} {msg}")
-        except Exception as e:
-            self.send_error(400, str(e))
+            # Upstream error bodies can contain user data, diagnostics or tokens.
+            self.send_error(502, f"Inference provider HTTP {e.code}; details withheld")
+        except (ValueError, json.JSONDecodeError):
+            self.send_error(400, "Invalid review request or model response")
+        except Exception:
+            self.send_error(502, "Review unavailable; no decision authorized")
 
 if __name__ == "__main__":
     os.chdir(ROOT)
     port = int(os.getenv("PORT","8787"))
     print(f"Apertus Gate on http://127.0.0.1:{port}")
     print("Mode:", "Apertus API" if API_KEY else "demo-policy (set APERTUS_API_KEY for real inference)")
-    host = os.getenv("HOST","0.0.0.0")
+    # Bind loopback by default. Docker/remote deployment must opt in to exposure.
+    host = os.getenv("HOST","127.0.0.1")
     ThreadingHTTPServer((host, port), Handler).serve_forever()

@@ -21,7 +21,8 @@ AI systems are useful when they can act, but high-impact actions should not be h
 
 Python 3 only; no third-party application dependencies.
 
-    python3 server.py
+    make test
+    python3 track_2b/src/server.py
     open http://127.0.0.1:8787
 
 ## Real Apertus inference
@@ -35,7 +36,7 @@ The key is read only from the environment and is never written to the repository
 
 ## Tests
 
-    python3 -m unittest discover -s tests -v
+    make test
 
 ## Architecture
 
@@ -63,3 +64,7 @@ This repository was created during the Hack Apertus online event as a new open-s
 ## Author
 
 Omar Baró · Unfire
+
+## Local request protection (10 October)
+
+The test/demo server binds to loopback by default; Docker users must explicitly set HOST=0.0.0.0 for a published container port. POST input is capped at 12 KiB and typed before model inference; oversized fields are refused rather than silently truncated. Upstream errors do not echo provider response bodies. This is a small demonstration boundary, not a production security audit.
