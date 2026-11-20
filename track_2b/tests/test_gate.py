@@ -67,6 +67,32 @@ class GateTests(unittest.TestCase):
         x = demo_review("Summarize public notes", "")
         self.assertEqual(x["decision"], "allow")
 
+    def test_high_risk_allow_is_escalated(self):
+        result = normalize({"risk_level": "high", "decision": "allow"})
+        self.assertEqual(result["decision"], "human_review")
+
+    def test_invalid_risk_allow_is_escalated(self):
+        result = normalize({"risk_level": "invalid", "decision": "allow"})
+        self.assertEqual(result["risk_level"], "high")
+        self.assertEqual(result["decision"], "human_review")
+
+    def test_medium_risk_allow_retained_for_compatibility(self):
+        result = normalize({"risk_level": "medium", "decision": "allow"})
+        self.assertEqual(result["decision"], "allow")
+
+    def test_demo_destructive_synonyms_require_review(self):
+        for action in [
+            "Erase all stored records permanently",
+            "Purge all the old backups",
+            "Wipe the archives",
+            "Destroy the customer records",
+            "Remove all invoices",
+        ]:
+            with self.subTest(action=action):
+                result = demo_review(action, "")
+                self.assertEqual(result["risk_level"], "high")
+                self.assertEqual(result["decision"], "human_review")
+
     def test_evaluation_dataset_matches_demo_policy(self):
         cases = json.loads((ROOT / "data" / "evaluation_cases.json").read_text())
         for case in cases:
