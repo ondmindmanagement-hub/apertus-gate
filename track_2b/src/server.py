@@ -38,6 +38,9 @@ def normalize(payload):
         risk = "high"
     if decision not in {"allow","human_review","required_block"}:
         decision = "human_review"
+    # High-risk or invalid-risk verdicts cannot authorize automatic execution.
+    if risk == "high" and decision == "allow":
+        decision = "human_review"
     reasons = payload.get("reasons") if isinstance(payload.get("reasons"), list) else ["Unstructured model response"]
     missing = payload.get("missing_information") if isinstance(payload.get("missing_information"), list) else []
     safe = str(payload.get("safe_next_step") or "Ask a human reviewer before execution.")
@@ -52,7 +55,7 @@ def normalize(payload):
 
 def demo_review(action, context):
     s = (action + " " + context).lower()
-    high_terms = ["send money","wire transfer","delete","production","credential","password","legal","contract","publish private","medical"]
+    high_terms = ["send money","wire transfer","delete","production","credential","password","legal","contract","publish private","medical", "erase", "wipe", "purge", "destroy", "remove all", "permanently remove"]
     med_terms = ["email","external","deploy","upload","customer","personal data"]
     if any(x in s for x in high_terms):
         risk, decision = "high", "human_review"
